@@ -2,12 +2,16 @@ package com.skyshi.pdfdownloader
 
 import android.Manifest
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
@@ -24,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
+        registerReceiver(onComplete,
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         button.setOnClickListener({ downloadTask() })
     }
 
@@ -73,5 +78,17 @@ class MainActivity : AppCompatActivity() {
 
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
         if (hasWriteDiskPermission()) startDownload()
+    }
+
+
+    private var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(ctxt: Context, intent: Intent) {
+            Toast.makeText(ctxt, "Download Complete", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(onComplete)
     }
 }
