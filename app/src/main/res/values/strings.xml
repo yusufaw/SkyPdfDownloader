@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PDFDownloader</string>
+    <string name="rationale_disk">This app needs access to write to the phone disk.</string>
 </resources>
