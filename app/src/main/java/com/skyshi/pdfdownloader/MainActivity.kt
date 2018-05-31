@@ -84,11 +84,20 @@ class MainActivity : AppCompatActivity() {
     private var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctxt: Context, intent: Intent) {
             Toast.makeText(ctxt, "Download Complete", Toast.LENGTH_LONG).show()
+            openPdfReader()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(onComplete)
+    }
+
+    private fun openPdfReader() {
+        if (fileName.isNotEmpty()) {
+            val intent = Intent(baseContext, ActivityPdfRender::class.java)
+            intent.putExtra("stringUri", fileName)
+            startActivity(intent)
+        }
     }
 }
