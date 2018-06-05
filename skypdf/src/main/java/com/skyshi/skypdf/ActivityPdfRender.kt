@@ -1,4 +1,4 @@
-package com.skyshi.pdfdownloader
+package com.skyshi.skypdf
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

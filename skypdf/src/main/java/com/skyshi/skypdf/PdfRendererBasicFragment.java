@@ -1,4 +1,4 @@
-package com.skyshi.pdfdownloader;
+package com.skyshi.skypdf;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -244,17 +244,11 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.previous: {
-                // Move to the previous page
-                showPage(mCurrentPage.getIndex() - 1);
-                break;
-            }
-            case R.id.next: {
-                // Move to the next page
-                showPage(mCurrentPage.getIndex() + 1);
-                break;
-            }
+        int i = view.getId();
+        if (i == R.id.previous) {
+            showPage(mCurrentPage.getIndex() - 1);
+        } else if (i == R.id.next) {
+            showPage(mCurrentPage.getIndex() + 1);
         }
     }
 

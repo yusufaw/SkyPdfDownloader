@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import android.widget.Toast
+import com.skyshi.skypdf.ActivityPdfRender
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private val fileName: String = "your-file-name.pdf"
     private val stringUrl: String = "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
-    private var lastDownload = -1L
+    //    private var lastDownload = -1L
     private lateinit var dm: DownloadManager
     private val requestCodeWriteDisk = 123
 
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         if (fi.exists()) {
 
         } else {
-            lastDownload = dm.enqueue(DownloadManager.Request(uri)
+            dm.enqueue(DownloadManager.Request(uri)
                     .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
                     .setAllowedOverRoaming(false)
                     .setTitle(fileName)
