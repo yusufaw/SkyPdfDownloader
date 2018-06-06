@@ -20,7 +20,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startDownload() {
-        SkyPdfDownloader.download(this, stringUrl, fileName)
+        SkyPdfDownloader.of(stringUrl, fileName)
+                .withDescription("This is a awesome description")
+                .start(this)
     }
 
 

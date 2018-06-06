@@ -1,7 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.skyshi.skypdf" >
-
-    <application>
-        <activity android:name=".SkyPdfDownloader" />
-    </application>
-</manifest>
+<manifest package="com.skyshi.skypdf" />

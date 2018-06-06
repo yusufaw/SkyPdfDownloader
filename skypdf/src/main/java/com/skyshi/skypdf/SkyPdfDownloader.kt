@@ -19,9 +19,10 @@ class SkyPdfDownloader : AppCompatActivity() {
 
     private lateinit var dm: DownloadManager
     private lateinit var fileName: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pdf_render)
+        setContentView(R.layout.activity_main)
 
         dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         registerReceiver(onComplete,
@@ -31,14 +32,38 @@ class SkyPdfDownloader : AppCompatActivity() {
 
         val stringUrl = extras.getString("stringUrl")
         fileName = extras.getString("fileName")
-        startDownload(stringUrl)
+        startDownload(stringUrl, extras.getString("header"), extras.getString("description"))
     }
 
     companion object {
-        fun download(context: Context, stringUrl: String, fileName: String) {
+
+        private var stringHeader: String? = ""
+        private var stringDescription: String? = ""
+        private var stringUrl: String = ""
+        private var fileName: String? = ""
+
+        fun withHeaderAuthorization(stringHeader: String): SkyPdfDownloader.Companion {
+            this.stringHeader = stringHeader
+            return this@Companion
+        }
+
+        fun withDescription(stringDescription: String? = ""): SkyPdfDownloader.Companion {
+            this.stringDescription = stringDescription
+            return this@Companion
+        }
+
+        fun of(stringUrl: String, fileName: String? = "new-file.pdf"): SkyPdfDownloader.Companion {
+            this.stringUrl = stringUrl
+            this.fileName = fileName
+            return this@Companion
+        }
+
+        fun start(context: Context) {
             val intent = Intent(context, SkyPdfDownloader::class.java)
             intent.putExtra("stringUrl", stringUrl)
             intent.putExtra("fileName", fileName)
+            intent.putExtra("header", this.stringHeader)
+            intent.putExtra("description", this.stringDescription)
             context.startActivity(intent)
         }
     }
@@ -46,7 +71,7 @@ class SkyPdfDownloader : AppCompatActivity() {
 
     private var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctxt: Context, intent: Intent) {
-            Toast.makeText(ctxt, "Download Complete", Toast.LENGTH_LONG).show()
+            Toast.makeText(ctxt, getString(R.string.download_complete), Toast.LENGTH_LONG).show()
             openPdfReader()
         }
     }
@@ -55,7 +80,6 @@ class SkyPdfDownloader : AppCompatActivity() {
         super.onDestroy()
         unregisterReceiver(onComplete)
     }
-
 
     private fun openPdfReader() {
         if (fileName.isNotEmpty()) {
@@ -67,7 +91,7 @@ class SkyPdfDownloader : AppCompatActivity() {
         }
     }
 
-    private fun startDownload(stringUrl: String) {
+    private fun startDownload(stringUrl: String, header: String, description: String? = "") {
         val uri = Uri.parse(stringUrl)
 
         val fi = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
@@ -76,12 +100,13 @@ class SkyPdfDownloader : AppCompatActivity() {
             openPdfReader()
         } else {
             dm.enqueue(DownloadManager.Request(uri)
+                    .addRequestHeader("Authorization", header)
                     .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
                     .setAllowedOverRoaming(false)
                     .setTitle(fileName)
                     .setVisibleInDownloadsUi(true)
                     .setNotificationVisibility(View.VISIBLE)
-                    .setDescription("This is a description")
+                    .setDescription(description)
                     .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
                             fileName)
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SkyPdf</string>
+    <string name="downloading">Downloading...</string>
+    <string name="download_complete">Download Complete</string>
 </resources>
