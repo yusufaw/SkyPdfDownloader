@@ -15,7 +15,7 @@ import java.io.File
 
 const val FRAGMENT_PDF_RENDERER_BASIC = "pdf_renderer_basic"
 
-class ActivityPdfRender : AppCompatActivity() {
+class SkyPdfDownloader : AppCompatActivity() {
 
     private lateinit var dm: DownloadManager
     private lateinit var fileName: String
@@ -36,7 +36,7 @@ class ActivityPdfRender : AppCompatActivity() {
 
     companion object {
         fun download(context: Context, stringUrl: String, fileName: String) {
-            val intent = Intent(context, ActivityPdfRender::class.java)
+            val intent = Intent(context, SkyPdfDownloader::class.java)
             intent.putExtra("stringUrl", stringUrl)
             intent.putExtra("fileName", fileName)
             context.startActivity(intent)

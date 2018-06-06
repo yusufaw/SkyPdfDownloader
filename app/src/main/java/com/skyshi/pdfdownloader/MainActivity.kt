@@ -3,7 +3,7 @@ package com.skyshi.pdfdownloader
 import android.Manifest
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.skyshi.skypdf.ActivityPdfRender
+import com.skyshi.skypdf.SkyPdfDownloader
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startDownload() {
-        ActivityPdfRender.download(this, stringUrl, fileName)
+        SkyPdfDownloader.download(this, stringUrl, fileName)
     }
 
 

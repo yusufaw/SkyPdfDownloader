@@ -2,6 +2,6 @@
     package="com.skyshi.skypdf" >
 
     <application>
-        <activity android:name=".ActivityPdfRender" />
+        <activity android:name=".SkyPdfDownloader" />
     </application>
 </manifest>
