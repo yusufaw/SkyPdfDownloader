@@ -22,7 +22,7 @@ class SkyPdfDownloader : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pdf_render)
+        setContentView(R.layout.activity_pdf_render_x)
 
         dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         registerReceiver(onComplete,
